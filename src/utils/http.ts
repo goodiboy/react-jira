@@ -43,7 +43,6 @@ export const http = (endpoint: string, { data, token, headers, ...customConfig }
 export const useHttp = () => {
   const { user } = useAuth()
   // Parameters 使用http的函数参数
-  return (...[endpoint, config]: Parameters<typeof http>) => {
+  return (...[endpoint, config]: Parameters<typeof http>) =>
     http(endpoint, { ...config, token: user?.token })
-  }
 }

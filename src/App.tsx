@@ -1,13 +1,13 @@
 import React from 'react'
 import './App.css'
 import { useAuth } from 'context/auth'
-import { Authentication } from 'views/authentication'
-import { Logout } from 'views/authentication/logout'
+import { UnAuthentication } from 'views/unauthentication'
+import { Authentication } from './views/authentication'
 
 function App() {
   const { user } = useAuth()
   console.log(user)
-  return <div className="App">{user ? <Logout /> : <Authentication />}</div>
+  return <div className="App">{user ? <Authentication /> : <UnAuthentication />}</div>
 }
 
 export default App

@@ -3,7 +3,7 @@ import { Form, Input } from 'antd'
 import { useAuth } from '../../context/auth'
 import { LongButton } from './index'
 
-export const RegisterScreen = () => {
+export const Register = () => {
   const { register } = useAuth()
 
   // HTMLFormElement extends Element

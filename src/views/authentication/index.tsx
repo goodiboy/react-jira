@@ -1,68 +1,55 @@
-import React, { useState } from 'react'
-import { RegisterScreen } from './register'
-import { LoginScreen } from './login'
-import { Button, Card } from 'antd'
+import React from 'react'
+import { useAuth } from 'context/auth'
 import styled from '@emotion/styled'
-import logo from 'assets/img/logo.svg'
-import left from 'assets/img/left.svg'
-import right from 'assets/img/right.svg'
+import { Row } from '../../components/lib'
+import { ReactComponent as SoftwareLogo } from 'assets/img/software-logo.svg'
+import { Button, Dropdown, Menu } from 'antd'
+import { ProjectList } from '../project-list'
+
 export const Authentication = () => {
-  const [isRegister, setIsRegister] = useState(false)
+  const { logout, user } = useAuth()
+  const menuItems = [
+    {
+      key: 'logout',
+      label: (
+        <Button type="link" onClick={logout}>
+          登出
+        </Button>
+      )
+    }
+  ]
+
   return (
     <Container>
-      <Header />
-      <Background />
-      <ShadowCard>
-        <Title>{isRegister ? '请注册' : '请登录'}</Title>
-        {isRegister ? <RegisterScreen /> : <LoginScreen />}
-        <LongButton onClick={() => setIsRegister(!isRegister)}>
-          切换到{isRegister ? '登录' : '注册'}
-        </LongButton>
-      </ShadowCard>
+      <Header between={true}>
+        <HeaderLeft gap={true}>
+          <SoftwareLogo width={'18rem'} color={'rgb(38, 132, 255)'} />
+          <h2>项目</h2>
+          <h2>用户</h2>
+        </HeaderLeft>
+        <HeaderRight>
+          <Dropdown overlay={<Menu items={menuItems} />}>
+            <Button type="link">Hi, {user?.name}</Button>
+          </Dropdown>
+        </HeaderRight>
+      </Header>
+      <Main>
+        <ProjectList />
+      </Main>
     </Container>
   )
 }
+const Container = styled.div({
+  display: 'grid',
+  gridTemplateRows: '6rem 1fr',
+  height: '100vh'
+})
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
+const Header = styled(Row)`
+  padding: 3.2rem;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+  z-index: 1;
 `
-
-const Header = styled.header`
-  background: url(${logo}) no-repeat center;
-  padding: 5rem 0;
-  background-size: 8rem;
-  width: 100%;
-`
-
-const Background = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: left bottom, right bottom;
-  background-size: calc(((100vw - 40rem) / 2) - 3.2rem), calc(((100vw - 40rem) / 2) - 3.2rem), cover;
-  background-image: url(${left}), url(${right});
-`
-
-const Title = styled.h2`
-  margin-bottom: 2.4rem;
-  color: rgb(94, 108, 132);
-`
-
-const ShadowCard = styled(Card)`
-  width: 40rem;
-  min-height: 56rem;
-  padding: 3.2rem 4rem;
-  border-radius: 0.3rem;
-  box-sizing: border-box;
-  box-shadow: rgba(0, 0, 0, 0.1) 0 0 10px;
-  text-align: center;
-`
-
-export const LongButton = styled(Button)`
-  width: 100%;
-`
+const HeaderLeft = styled(Row)()
+const HeaderRight = styled.div()
+const Main = styled.main()
