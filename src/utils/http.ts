@@ -1,6 +1,10 @@
 import qs from 'qs'
 import { logout } from '../api/auth'
 import { useAuth } from '../context/auth'
+// import {Project} from "../types/project-list";
+// import {useAsync} from "./use-async";
+// import {useEffect} from "react";
+// import {cleanObject} from "./index";
 
 interface Config extends RequestInit {
   token?: string
@@ -46,3 +50,18 @@ export const useHttp = () => {
   return (...[endpoint, config]: Parameters<typeof http>) =>
     http(endpoint, { ...config, token: user?.token })
 }
+
+//
+// export const useHttp = (...[endpoint, config]: Parameters<typeof http>) => {
+//   const { user } = useAuth()
+//   const {run,...result} = useAsync<Project[]>()
+// const params = config?.data || ''
+//   console.log(params)
+//   console.log(config)
+//   // useEffect(()=> {
+//     run(http(endpoint, { ...config, token: user?.token }))
+//   // },[params])
+//
+//   // Parameters 使用http的函数参数
+//   return result
+// }

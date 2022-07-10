@@ -1,35 +1,26 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
-import { useDebounce, useMount } from '../../utils/hook'
-import { useHttp } from '../../utils/http'
-import { cleanObject } from '../../utils'
+import { useDebounce } from '../../utils/hook'
 import { Panel } from './Panel'
 import { List } from './List'
-
+import { useProjects, useUsers } from '../../api/project'
+import { Typography } from 'antd'
 export const ProjectList = () => {
-  const [users, setUsers] = useState([])
   const [param, setParam] = useState({
     name: '',
     personId: ''
   })
 
   const debounceParam = useDebounce(param, 200)
-  const [list, setList] = useState([])
-  const client = useHttp()
-
-  useEffect(() => {
-    client('projects', { data: cleanObject(debounceParam) }).then(setList)
-  }, [debounceParam])
-
-  useMount(() => {
-    client('users').then(setUsers)
-  })
+  const { data: list, error, isLoading } = useProjects(debounceParam)
+  const { data: users } = useUsers()
 
   return (
     <Container>
       <h1>项目列表</h1>
-      <Panel users={users} param={param} setParam={setParam} />
-      <List list={list} users={users} />
+      <Panel users={users || []} param={param} setParam={setParam} />
+      {error ? <Typography.Text type={'danger'}>{error.message}</Typography.Text> : null}
+      <List loading={isLoading} dataSource={list || []} users={users || []} />
     </Container>
   )
 }
