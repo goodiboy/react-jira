@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
-import { loadServer } from 'jira-dev-tool'
+import { loadServer, DevTools } from 'jira-dev-tool'
 import { AppProviders } from './context'
 import 'antd/dist/antd.less'
 
@@ -12,6 +12,7 @@ loadServer(() => {
   root.render(
     <React.StrictMode>
       <AppProviders>
+        <DevTools />
         <App />
       </AppProviders>
     </React.StrictMode>

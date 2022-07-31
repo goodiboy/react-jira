@@ -12,7 +12,7 @@ const defaultState: State<null> = {
   error: null
 }
 
-export const useAsync = <T>(initialState?: State<T>) => {
+export const useAsync = <T>(initialState?: State<T>, throwOnError = false) => {
   const [state, setState] = useState({
     ...defaultState,
     ...initialState
@@ -40,13 +40,16 @@ export const useAsync = <T>(initialState?: State<T>) => {
     }
     setState({ ...state, state: 'loading' })
 
-    promise
+    return promise
       .then((data) => {
         setData(data)
         return data
       })
       .catch((error) => {
         setError(error)
+        if (throwOnError) {
+          return Promise.reject(error)
+        }
         return error
       })
   }
