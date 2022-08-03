@@ -6,7 +6,6 @@ import { Authentication } from './views/authentication'
 
 function App() {
   const { user } = useAuth()
-  console.log(user)
   return <div className="App">{user ? <Authentication /> : <UnAuthentication />}</div>
 }
 
