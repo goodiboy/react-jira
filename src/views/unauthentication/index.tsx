@@ -6,11 +6,12 @@ import styled from '@emotion/styled'
 import logo from 'assets/img/logo.svg'
 import left from 'assets/img/left.svg'
 import right from 'assets/img/right.svg'
+import { useDocumentTitle } from 'utils/hook'
 
 export const UnAuthentication = () => {
   const [isRegister, setIsRegister] = useState(false)
   const [error, setError] = useState<null | Error>(null)
-
+  useDocumentTitle('请登录注册以继续')
   return (
     <Container>
       <Header />

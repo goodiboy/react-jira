@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 export const useMount = (callback: () => void) => {
   useEffect(() => {
@@ -32,4 +32,20 @@ export const useArray = <T>(initialArray: T[]) => {
       setValue(copy)
     }
   }
+}
+export const useDocumentTitle = (title: string, keepOnUnmount = true) => {
+  const oldTitle = useRef(document.title).current
+  // useRef 永久存储第一次的标题
+
+  useEffect(() => {
+    document.title = title
+  }, [title])
+
+  useEffect(() => {
+    return () => {
+      if (!keepOnUnmount) {
+        document.title = oldTitle
+      }
+    }
+  }, [keepOnUnmount, oldTitle])
 }
